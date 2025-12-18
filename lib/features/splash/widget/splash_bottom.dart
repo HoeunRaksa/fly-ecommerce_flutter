@@ -1,8 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 
-import '../../../core/colors/app_color.dart';
-
 class SplashBottom extends StatelessWidget {
   const SplashBottom({super.key});
 
@@ -26,7 +24,7 @@ class SplashBottom extends StatelessWidget {
             ),
             child: Row(
               children: [
-                // Register button
+                // Register
                 Expanded(
                   child: TextButton(
                     onPressed: () {
@@ -43,6 +41,13 @@ class SplashBottom extends StatelessWidget {
                   ),
                 ),
                 // Sign In button
+                Container(
+                  padding: EdgeInsets.zero,
+                  width: 0.8,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                  ),
+                ),
                 Expanded(
                   child: TextButton(
                     onPressed: () {
