@@ -1,6 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:fly/app.dart';
+import 'package:fly/features/auth/provider/auth_provider.dart';
+import 'package:provider/provider.dart';
 
 void main(){
-  runApp(const MyApp());
+  runApp(
+      MultiProvider(
+     providers: [
+         ChangeNotifierProvider(create:(_) => AuthProvider())
+     ],
+        child: const MyApp(),
+  ));
 }

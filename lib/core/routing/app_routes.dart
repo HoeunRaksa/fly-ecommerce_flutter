@@ -4,5 +4,4 @@ class AppRoutes {
   static const String home="/home";
   static const String notFound = '/404';
   static const String test ="/test";
-
 }

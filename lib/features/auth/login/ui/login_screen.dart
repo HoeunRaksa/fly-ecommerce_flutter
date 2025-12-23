@@ -3,8 +3,8 @@ import '../widget/background_login.dart';
 import '../widget/login_body.dart';
 import '../widget/login_header.dart';
 
-class RegisterScreen extends StatelessWidget {
-  const RegisterScreen({super.key});
+class LoginScreen extends StatelessWidget {
+  const LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class RegisterScreen extends StatelessWidget {
               BackgroundLogin(),
               Positioned.fill(
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 0, right: 30, left: 30),
+                  padding: const EdgeInsets.only(top: 0, right: 20, left: 20),
                   child: const LoginBody(),
                 ),
               ),

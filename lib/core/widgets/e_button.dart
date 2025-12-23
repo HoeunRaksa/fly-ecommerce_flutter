@@ -12,10 +12,10 @@ class EButton extends StatelessWidget {
     super.key,
     required this.name,
     required this.onPressed,
-    this.backgroundColor = AppColors.secondaryBlue,
+    this.backgroundColor = AppColors.red400,
     this.textColor = Colors.white,
-    this.borderRadius = 15,
-    this.padding = const EdgeInsets.symmetric(vertical: 15, horizontal: 50),
+    this.borderRadius = 5,
+    this.padding = const EdgeInsets.symmetric(vertical: 12, horizontal: 60),
   });
   @override
   Widget build(BuildContext context) {

@@ -20,21 +20,21 @@ class InputField extends StatelessWidget {
       decoration: InputDecoration(
         labelText: label,
         labelStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
-          color: AppColors.gray700,
+          color: Colors.grey.shade600,
           fontSize: 15,
         ),
         filled: true,
-        fillColor: AppColors.light.withOpacity(0.8),
+        fillColor: Colors.grey.shade200,
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(7),
           borderSide: const BorderSide(width: 1, color: Colors.white),
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(7),
           borderSide: const BorderSide(width: 1, color: Colors.white),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(7),
           borderSide: BorderSide(
             width: 1,
             color: Colors.orange[700]!.withOpacity(0.6),
