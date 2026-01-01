@@ -15,13 +15,13 @@ class _HomeHeaderAutoScroller extends State<HomeSectionScroller> {
   Timer? _timer;
   double scrollPosition = 0.0;
   bool scrollForward = true;
-  final double itemWidth = 398;
+  final double itemWidth = 390;
 
   @override
   void initState() {
     super.initState();
 
-    _timer = Timer.periodic(const Duration(seconds: 3), (_) {
+    _timer = Timer.periodic(const Duration(seconds: 5), (_) {
       if (!_scrollController.hasClients) return;
 
       final maxExtent = _scrollController.position.maxScrollExtent;
@@ -42,7 +42,7 @@ class _HomeHeaderAutoScroller extends State<HomeSectionScroller> {
 
       _scrollController.animateTo(
         scrollPosition,
-        duration: const Duration(milliseconds: 500),
+        duration: const Duration(milliseconds: 1000),
         curve: Curves.easeInOut,
       );
     });
@@ -58,6 +58,7 @@ class _HomeHeaderAutoScroller extends State<HomeSectionScroller> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      color: Theme.of(context).scaffoldBackgroundColor,
       height: 160,
       padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
       child: ListView.separated(
@@ -69,16 +70,9 @@ class _HomeHeaderAutoScroller extends State<HomeSectionScroller> {
           child: Stack(
             children: [
               Container(
-                width: 390,
+                width: 380,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(40),
-                  boxShadow: [
-                    BoxShadow(
-                      color: AppColors.gray700.withAlpha(50),
-                      blurRadius: 40,
-                      offset: Offset(0, 4),
-                    ),
-                  ],
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(20),

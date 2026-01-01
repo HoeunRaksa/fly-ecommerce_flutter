@@ -12,7 +12,7 @@ class HomeBody extends StatelessWidget {
   final String? searchQuery;
   final Function(int) onCategorySelected;
   final List<Product> products;
-  final ScrollController? scrollController; // main vertical scroll controller
+  final ScrollController? scrollController;
 
   const HomeBody({
     super.key,
@@ -26,8 +26,8 @@ class HomeBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView(
-      controller: scrollController, // safe, can be null
-      padding: const EdgeInsets.all(5),
+      controller: scrollController,
+      padding: const EdgeInsets.all(10),
       physics: const AlwaysScrollableScrollPhysics(),
       children: [
         const SizedBox(height: 10),
@@ -75,10 +75,10 @@ class HomeBody extends StatelessWidget {
               onPressed: () {},
               child: Text(
                 "View",
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyMedium
-                    ?.copyWith(color: Colors.orangeAccent, fontSize: 15),
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: Colors.orangeAccent,
+                  fontSize: 15,
+                ),
               ),
             ),
           ],
@@ -94,7 +94,8 @@ class HomeBody extends StatelessWidget {
               final product = products[index];
               final imageProvider = product.images.isNotEmpty
                   ? NetworkImage(
-                  AppConfig.getImageUrl(product.images[0].imageUrl))
+                      AppConfig.getImageUrl(product.images[0].imageUrl),
+                    )
                   : const AssetImage('assets/images/placeholder.png');
 
               return InkWell(
@@ -119,24 +120,19 @@ class HomeBody extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              "Popular",
-              style: Theme.of(context).textTheme.headlineSmall,
-            ),
+            Text("Popular", style: Theme.of(context).textTheme.headlineSmall),
             TextButton(
               onPressed: () {},
               child: Text(
                 "View",
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyMedium
-                    ?.copyWith(color: Colors.orangeAccent, fontSize: 15),
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: Colors.orangeAccent,
+                  fontSize: 15,
+                ),
               ),
             ),
           ],
         ),
-
-        // Horizontal Small Cards list
         SizedBox(
           height: 100,
           child: ListView.separated(
@@ -154,8 +150,6 @@ class HomeBody extends StatelessWidget {
             separatorBuilder: (_, __) => const SizedBox(width: 10),
           ),
         ),
-
-        const SizedBox(height: 20),
       ],
     );
   }

@@ -17,7 +17,7 @@ class CircleIconButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: isAdded? AppColors.secondaryGreen : Colors.grey.shade400,
+      color: isAdded? AppColors.secondaryGreen : Colors.white,
       shape: const CircleBorder(),
       child: InkWell(
         customBorder: const CircleBorder(),

@@ -23,7 +23,7 @@ class HomeHeader extends StatelessWidget implements PreferredSizeWidget {
           borderRadius: BorderRadius.circular(20),
           border: Border.all(color: AppColors.gray700.withAlpha(20), width: 1),
         ),
-        padding: const EdgeInsets.only(top: 40, right: 20, left: 20),
+        padding: const EdgeInsets.only(top: 60, right: 20, left: 20),
         width: double.infinity,
         child: Column(
           children: [
@@ -31,7 +31,6 @@ class HomeHeader extends StatelessWidget implements PreferredSizeWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                // Display user profile image if exists, else placeholder
                 CircleAvatar(
                   radius: 35,
                   backgroundImage: user?.profileImage != null
@@ -97,5 +96,5 @@ class HomeHeader extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(150);
+  Size get preferredSize => const Size.fromHeight(170);
 }
