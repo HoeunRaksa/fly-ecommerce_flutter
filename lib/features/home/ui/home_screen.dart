@@ -1,28 +1,55 @@
 import 'package:flutter/material.dart';
-import 'package:fly/features/home/widget/home_bottomBar.dart';
+import 'package:fly/features/home/widget/home_body.dart';
+import 'package:fly/features/home/widget/home_header.dart';
 import 'package:provider/provider.dart';
 import '../../../providers/product_provider.dart';
-import '../widget/home_body.dart';
-import '../widget/home_header.dart';
+import '../../../providers/user_provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreen();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreen extends State<HomeScreen> {
-  @override @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final productProvider = context.read<ProductProvider>();
-      productProvider.fetchProducts();
-    });
-  }
+class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateMixin {
+  late final ScrollController _scrollController;
+  late final AnimationController _animationController;
   int selectedIndex = -1;
   String? searchQuery;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _scrollController = ScrollController();
+    _animationController = AnimationController(vsync: this);
+
+    // Fetch products and user only once
+    fetchInitialData();
+  }
+
+  Future<void> fetchInitialData() async {
+    final productProvider = context.read<ProductProvider>();
+    final userProvider = context.read<UserProvider>();
+
+    try {
+      await Future.wait([
+        productProvider.fetchProducts(),
+        userProvider.fetchUser(),
+      ]);
+    } catch (e) {
+      debugPrint('Error fetching data: $e');
+    }
+  }
+
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    _animationController.dispose();
+    super.dispose();
+  }
 
   void _onSearchChanged(String value) {
     if (!mounted) return;
@@ -40,18 +67,21 @@ class _HomeScreen extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final ProductProvider provider = context.watch<ProductProvider>();
-    final products = provider.products;
-    final loading = provider.loading;
+    final productProvider = context.watch<ProductProvider>();
+    final products = productProvider.products;
+    final loading = productProvider.loading;
+
     return Scaffold(
       appBar: HomeHeader(onSearchChanged: _onSearchChanged),
-      body: loading ? const Center(child: CircularProgressIndicator(),) : HomeBody(
+      body: loading
+          ? const Center(child: CircularProgressIndicator())
+          : HomeBody(
         selectedIndex: selectedIndex,
         searchQuery: searchQuery,
         onCategorySelected: _onCategorySelected,
         products: products,
+        scrollController: _scrollController,
       ),
-      bottomNavigationBar: HomeBottomBar(),
     );
   }
 }

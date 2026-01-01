@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import '../features/auth/service/product_service.dart';
+import '../features/service/product_service.dart';
 import '../model/product.dart';
 
 

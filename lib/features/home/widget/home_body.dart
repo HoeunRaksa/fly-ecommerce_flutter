@@ -12,22 +12,27 @@ class HomeBody extends StatelessWidget {
   final String? searchQuery;
   final Function(int) onCategorySelected;
   final List<Product> products;
+  final ScrollController? scrollController; // main vertical scroll controller
 
   const HomeBody({
     super.key,
     required this.selectedIndex,
     this.searchQuery,
     required this.onCategorySelected,
-    required this.products
+    required this.products,
+    this.scrollController,
   });
 
   @override
   Widget build(BuildContext context) {
-
     return ListView(
+      controller: scrollController, // safe, can be null
       padding: const EdgeInsets.all(5),
+      physics: const AlwaysScrollableScrollPhysics(),
       children: [
         const SizedBox(height: 10),
+
+        // Header
         Align(
           alignment: Alignment.centerLeft,
           child: Text(
@@ -36,6 +41,7 @@ class HomeBody extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 10),
+
         const HomeSectionScroller(),
         const SizedBox(height: 30),
 
@@ -52,7 +58,7 @@ class HomeBody extends StatelessWidget {
                 onTap: () => onCategorySelected(index),
               );
             },
-            separatorBuilder: (context, index) => const SizedBox(width: 7),
+            separatorBuilder: (_, __) => const SizedBox(width: 7),
           ),
         ),
         const SizedBox(height: 10),
@@ -80,23 +86,23 @@ class HomeBody extends StatelessWidget {
 
         // Horizontal Products list
         SizedBox(
-          height: 250, // fixed height for horizontal ListView
+          height: 250,
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
             itemCount: products.length,
             itemBuilder: (context, index) {
               final product = products[index];
               final imageProvider = product.images.isNotEmpty
-                  ? NetworkImage(AppConfig.getImageUrl(product.images[0].imageUrl)) as ImageProvider
-                  : AssetImage('assets/images/placeholder.png') as ImageProvider;
+                  ? NetworkImage(
+                  AppConfig.getImageUrl(product.images[0].imageUrl))
+                  : const AssetImage('assets/images/placeholder.png');
 
               return InkWell(
                 onTap: () {
-                  // Navigate to ProductScreen with the product ID
                   context.go('/detail/${product.id}');
                 },
                 child: ProductCard(
-                  image: imageProvider,
+                  image: imageProvider as ImageProvider,
                   name: product.name,
                   description: product.description,
                   price: product.price,
@@ -104,7 +110,7 @@ class HomeBody extends StatelessWidget {
                 ),
               );
             },
-            separatorBuilder: (context, index) => const SizedBox(width: 10),
+            separatorBuilder: (_, __) => const SizedBox(width: 10),
           ),
         ),
         const SizedBox(height: 20),
@@ -113,7 +119,10 @@ class HomeBody extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text("Popular", style: Theme.of(context).textTheme.headlineSmall),
+            Text(
+              "Popular",
+              style: Theme.of(context).textTheme.headlineSmall,
+            ),
             TextButton(
               onPressed: () {},
               child: Text(
@@ -137,15 +146,15 @@ class HomeBody extends StatelessWidget {
               final product = products[index];
               return InkWell(
                 onTap: () {
-                  // Navigate to ProductScreen with the product ID
                   context.go('/detail/${product.id}');
                 },
                 child: SmallCard(product: product),
               );
             },
-            separatorBuilder: (context, index) => const SizedBox(width: 10),
+            separatorBuilder: (_, __) => const SizedBox(width: 10),
           ),
         ),
+
         const SizedBox(height: 20),
       ],
     );

@@ -2,19 +2,16 @@ import 'package:fly/core/routing/app_routes.dart';
 import 'package:fly/features/auth/login/ui/login_screen.dart';
 import 'package:fly/features/auth/otpVerify/ui/otp_screen.dart';
 import 'package:fly/features/auth/register/ui/register_screen.dart';
-import 'package:fly/features/home/ui/home_screen.dart';
+import 'package:fly/features/home/widget/home_bottomBar.dart';
 import 'package:fly/features/product_detail/ui/product_screen.dart';
 
-import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../features/auth/provider/auth_provider.dart';
-import 'package:provider/provider.dart';
-
 import '../../providers/product_provider.dart';
 
 class AppRouter {
   static GoRouter router(AuthProvider authProvider, ProductProvider productProvider) => GoRouter(
-    initialLocation: AppRoutes.home,
+    initialLocation: AppRoutes.login,
     routes: [
       GoRoute(
         path: AppRoutes.login,
@@ -30,7 +27,7 @@ class AppRouter {
       ),
       GoRoute(
         path: AppRoutes.home,
-        builder: (context, state) => const HomeScreen(),
+        builder: (context, state) => const HomeBottomBar(),
       ),
       GoRoute(
         path: '${AppRoutes.detail}/:id',
@@ -48,12 +45,12 @@ class AppRouter {
       ),
     ],
     // Optional redirect logic
-    // redirect: (context, state) {
-    //   final loggedIn = authProvider.isLoggedIn;
-    //   final currentPath = state.uri.path;
-    //   if (loggedIn && currentPath == AppRoutes.login) return AppRoutes.home;
-    //   if (!loggedIn && currentPath == AppRoutes.home) return AppRoutes.login;
-    //   return null;
-    // },
+    redirect: (context, state) {
+      final loggedIn = authProvider.isLoggedIn;
+      final currentPath = state.uri.path;
+      if (loggedIn && currentPath == AppRoutes.login) return AppRoutes.home;
+      if (!loggedIn && currentPath == AppRoutes.home) return AppRoutes.login;
+      return null;
+    },
   );
 }
