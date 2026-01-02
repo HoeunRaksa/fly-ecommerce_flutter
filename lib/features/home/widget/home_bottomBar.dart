@@ -1,8 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import '../ui/home_screen.dart';
-
+import 'package:fly/features/profile/screen/profile_screen.dart';
+import '../screen/home_screen.dart';
 
 class HomeBottomBar extends StatefulWidget {
   const HomeBottomBar({super.key});
@@ -24,7 +23,7 @@ class _HomeBottomBar extends State<HomeBottomBar> {
       case 2:
         return const Center(child: Text("Shopping Screen")); // placeholder
       case 3:
-        return const Center(child: Text("Profile Screen")); // placeholder
+        return const ProfileScreen();
       default:
         return const HomeScreen();
     }

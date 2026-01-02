@@ -1,12 +1,14 @@
+import 'package:fly/config/app_config.dart';
 import 'package:fly/core/routing/app_routes.dart';
-import 'package:fly/features/auth/login/ui/login_screen.dart';
-import 'package:fly/features/auth/otpVerify/ui/otp_screen.dart';
-import 'package:fly/features/auth/register/ui/register_screen.dart';
-import 'package:fly/features/home/widget/home_bottomBar.dart';
-import 'package:fly/features/product_detail/ui/product_screen.dart';
 
+import 'package:fly/features/home/widget/home_bottomBar.dart';
+import 'package:fly/features/profile/screen/profile_screen.dart';
 import 'package:go_router/go_router.dart';
+import '../../features/auth/login/screen/login_screen.dart';
+import '../../features/auth/otpVerify/screen/otp_screen.dart';
 import '../../features/auth/provider/auth_provider.dart';
+import '../../features/auth/register/screen/register_screen.dart';
+import '../../features/product_detail/screen/product_screen.dart';
 import '../../providers/product_provider.dart';
 
 class AppRouter {
@@ -43,8 +45,8 @@ class AppRouter {
           return ProductScreen(product: product);
         },
       ),
+      GoRoute(path: AppRoutes.profile,builder: (context, state) => const ProfileScreen() )
     ],
-    // Optional redirect logic
     redirect: (context, state) {
       final loggedIn = authProvider.isLoggedIn;
       final currentPath = state.uri.path;
