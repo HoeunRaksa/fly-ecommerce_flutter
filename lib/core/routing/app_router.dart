@@ -45,7 +45,7 @@ class AppRouter {
           return ProductScreen(product: product);
         },
       ),
-      GoRoute(path: AppRoutes.profile,builder: (context, state) => const ProfileScreen() )
+      GoRoute(path: AppRoutes.profile,builder: (context, state) => const ProfileScreen(isSetHeader: true,) )
     ],
     redirect: (context, state) {
       final loggedIn = authProvider.isLoggedIn;

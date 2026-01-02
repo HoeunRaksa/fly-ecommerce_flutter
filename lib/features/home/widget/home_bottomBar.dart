@@ -37,6 +37,7 @@ class _HomeBottomBar extends State<HomeBottomBar> {
         children: List.generate(4, (index) => _getScreen(index)),
       ),
       bottomNavigationBar: CupertinoTabBar(
+        height: 60,
         backgroundColor: Colors.white,
         border: null,
         currentIndex: _currentIndex,

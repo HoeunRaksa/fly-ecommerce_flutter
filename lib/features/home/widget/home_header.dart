@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fly/config/app_config.dart';
 import 'package:fly/features/auth/provider/user_provider.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import '../../../config/app_color.dart';
 import '../../../core/widgets/input_field.dart';
@@ -14,7 +15,10 @@ class HomeHeader extends StatelessWidget implements PreferredSizeWidget {
     final userProvider = context.watch<UserProvider>();
     final user = userProvider.user;
     final userName = user?.name ?? "Guest";
-
+    String capitalizeFirst(String? text) {
+      if (text == null || text.isEmpty) return '';
+      return text[0].toUpperCase() + text.substring(1);
+    }
     return PreferredSize(
       preferredSize: preferredSize,
       child: Container(
@@ -31,12 +35,20 @@ class HomeHeader extends StatelessWidget implements PreferredSizeWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                CircleAvatar(
-                  radius: 35,
-                  backgroundImage: user?.profileImage != null
-                      ? NetworkImage(AppConfig.getImageUrl(user!.profileImage!))
-                      : AssetImage("${AppConfig.imageUrl}/character.png")
-                  as ImageProvider,
+                InkWell(
+                  onTap: () {
+                    context.push("/profile");
+                    debugPrint("top profile");
+                  },
+                  child: CircleAvatar(
+                    radius: 35,
+                    backgroundImage: user?.profileImage != null
+                        ? NetworkImage(
+                            AppConfig.getImageUrl(user!.profileImage!),
+                          )
+                        : AssetImage("${AppConfig.imageUrl}/character.png")
+                              as ImageProvider,
+                  ),
                 ),
                 const SizedBox(width: 10),
                 Expanded(
@@ -49,7 +61,7 @@ class HomeHeader extends StatelessWidget implements PreferredSizeWidget {
                         style: Theme.of(context).textTheme.bodySmall,
                       ),
                       Text(
-                        userName,
+                        capitalizeFirst(userName),
                         style: Theme.of(context).textTheme.headlineSmall,
                       ),
                     ],

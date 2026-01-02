@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fly/core/widgets/circleIcon_button.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../config/app_color.dart';
 class ProfileHeader extends StatelessWidget implements PreferredSizeWidget {
@@ -12,7 +13,7 @@ class ProfileHeader extends StatelessWidget implements PreferredSizeWidget {
            child: Row(
              mainAxisAlignment: MainAxisAlignment.spaceBetween,
              children: [
-               CircleIconButton(icon: Icons.arrow_back, onTap: (){},sizedY: 40, sizeX: 40,),
+               CircleIconButton(icon: Icons.arrow_back, onTap: () => context.pop(),sizedY: 40, sizeX: 40,),
                if(isSet == true)
                  CircleIconButton(icon: Icons.settings, onTap: (){},sizedY: 40, sizeX: 40,iconColor: AppColors.secondaryBlue,),
              ],
