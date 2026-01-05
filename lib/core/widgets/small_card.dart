@@ -8,6 +8,7 @@ class SmallCard extends StatelessWidget {
   final double height;
   final double imageY;
   final Product product;
+  final ImageProvider image;
 
   const SmallCard({
     super.key,
@@ -15,6 +16,7 @@ class SmallCard extends StatelessWidget {
     this.height = 230,
     this.imageY = 150,
     required this.product,
+    required this.image
   });
 
   @override
@@ -42,12 +44,7 @@ class SmallCard extends StatelessWidget {
               color: AppColors.gray700.withAlpha(20),
               borderRadius: BorderRadius.circular(10),
             ),
-            child: product.images.isNotEmpty
-                ? Image.network(
-              AppConfig.getImageUrl(product.images[0].imageUrl),
-              fit: BoxFit.contain,
-            )
-                : Image.asset("${AppConfig.imageUrl}/character.png"),
+            child: Image(image: image)
           ),
 
           // Text section

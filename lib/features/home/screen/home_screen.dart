@@ -84,6 +84,7 @@ class _HomeScreenState extends State<HomeScreen>
               onCategorySelected: _onCategorySelected,
               products: products,
               scrollController: _scrollController,
+              provider: productProvider,
             ),
           ),
         ),

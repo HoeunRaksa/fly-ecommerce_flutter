@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fly/config/app_config.dart';
+import 'package:fly/providers/product_provider.dart';
 import 'package:go_router/go_router.dart';
 import '../../../core/widgets/product_card.dart';
 import '../../../core/widgets/small_card.dart';
@@ -14,6 +15,7 @@ class HomeBody extends StatelessWidget {
   final Function(int) onCategorySelected;
   final List<Product> products;
   final ScrollController? scrollController;
+  final ProductProvider provider;
 
   const HomeBody({
     super.key,
@@ -22,11 +24,17 @@ class HomeBody extends StatelessWidget {
     required this.onCategorySelected,
     required this.products,
     this.scrollController,
+    required this.provider,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Align(
+    return RefreshIndicator(
+     onRefresh: () async {
+       await provider.refreshProducts();
+     },
+      child:
+      Align(
       alignment: Alignment.topCenter,
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 1200), // ⭐ world-class max width
@@ -106,7 +114,7 @@ class HomeBody extends StatelessWidget {
 
                   return InkWell(
                     onTap: () {
-                      context.go('/detail/${product.id}');
+                      context.push('/detail/${product.id}');
                     },
                     child: ProductCard(
                       image: imageProvider as ImageProvider,
@@ -146,11 +154,16 @@ class HomeBody extends StatelessWidget {
                 itemCount: products.length,
                 itemBuilder: (context, index) {
                   final product = products[index];
+                  final imageProvider = product.images.isNotEmpty
+                      ? CachedNetworkImageProvider(
+                    AppConfig.getImageUrl(product.images[0].imageUrl),
+                  )
+                      : const AssetImage('assets/images/placeholder.png');
                   return InkWell(
                     onTap: () {
-                      context.go('/detail/${product.id}');
+                      context.push('/detail/${product.id}');
                     },
-                    child: SmallCard(product: product),
+                    child: SmallCard(product: product, image: imageProvider as ImageProvider),
                   );
                 },
                 separatorBuilder: (_, __) => const SizedBox(width: 10),
@@ -159,6 +172,7 @@ class HomeBody extends StatelessWidget {
           ],
         ),
       ),
+    ),
     );
   }
 }

@@ -5,7 +5,7 @@ import '../widget/detail_header.dart';
 import '../../../model/product.dart';
 
 class ProductScreen extends StatefulWidget {
-  final Product product; // pass the product
+  final Product product;
 
   const ProductScreen({super.key, required this.product});
 
@@ -20,20 +20,25 @@ class _ProductScreen extends State<ProductScreen> {
   @override
   void initState() {
     super.initState();
-    amount = widget.product.price; // initialize amount
+    amount = widget.product.price;
   }
 
   @override
   Widget build(BuildContext context) {
-    final double footerHeight = 150;
+    const double footerHeight = 150;
+
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      appBar: DetailHeader(),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: EdgeInsets.only(bottom: footerHeight),
-          child: DetailBody(product: widget.product),
-        ),
+      body: Stack(
+        children: [
+          DetailBody(product: widget.product),
+          Positioned(
+            top: 5,
+            left: 10,
+            right: 10,
+            child: const DetailHeader(),
+          ),
+        ],
       ),
       bottomNavigationBar: SizedBox(
         height: footerHeight,
