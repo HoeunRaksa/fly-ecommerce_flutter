@@ -110,18 +110,15 @@ class HomeBody extends StatelessWidget {
                     AppConfig.getImageUrl(product.images[0].imageUrl),
                   )
                       : const AssetImage('assets/images/placeholder.png');
-
-
                   return InkWell(
                     onTap: () {
                       context.push('/detail/${product.id}');
                     },
                     child: ProductCard(
                       image: imageProvider as ImageProvider,
-                      name: product.name,
-                      description: product.description,
-                      price: product.price,
+                      product: product,
                       setIcon: true,
+                      onAdded: (){},
                     ),
                   );
                 },
