@@ -99,7 +99,7 @@ class HomeBody extends StatelessWidget {
 
             // Horizontal Products list
             SizedBox(
-              height: 250,
+              height: 400,
               child: ListView.separated(
                 scrollDirection: Axis.horizontal,
                 itemCount: products.length,

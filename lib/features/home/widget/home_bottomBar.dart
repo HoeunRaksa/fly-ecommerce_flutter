@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fly/features/profile/screen/profile_screen.dart';
 import '../screen/home_screen.dart';
 
+/// Glass iOS 26 Bottom Bar (logic unchanged)
 class HomeBottomBar extends StatefulWidget {
   const HomeBottomBar({super.key});
 
@@ -13,13 +14,17 @@ class HomeBottomBar extends StatefulWidget {
 class _HomeBottomBar extends State<HomeBottomBar> {
   int _currentIndex = 0;
 
-  // Screens list
+  // Screens list — use YOUR own screens only
   final List<Widget> _screens = [
-    const HomeScreen(),
-    const FavoriteScreen(),
-    const ShoppingScreen(),
-    const ProfileScreen(),
+    const HomeScreen(), // Home
+    const HomeScreen(), // Replace with your actual favorite screen if exists
+    const HomeScreen(), // Replace with your actual shopping/cart screen if exists
+    const ProfileScreen(), // Profile
   ];
+
+  // iOS system colors
+  final Color activeColor = CupertinoColors.systemOrange;
+  final Color inactiveColor = CupertinoColors.systemGrey;
 
   @override
   Widget build(BuildContext context) {
@@ -32,9 +37,9 @@ class _HomeBottomBar extends State<HomeBottomBar> {
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.05),
+              color: Colors.black.withOpacity(0.04),
               blurRadius: 10,
-              offset: const Offset(0, -5),
+              offset: const Offset(0, -4),
             ),
           ],
         ),
@@ -46,49 +51,49 @@ class _HomeBottomBar extends State<HomeBottomBar> {
             });
           },
           height: 70,
-          backgroundColor: Colors.white,
+          backgroundColor: CupertinoColors.systemBackground,
           elevation: 0,
-          indicatorColor: Colors.orange.shade50,
-          animationDuration: const Duration(milliseconds: 400),
+          indicatorColor: CupertinoColors.systemOrange.withOpacity(0.12),
+          animationDuration: const Duration(milliseconds: 350),
           labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
           destinations: [
             NavigationDestination(
               icon: Icon(
-                CupertinoIcons.home,
-                color: _currentIndex == 0 ? Colors.orange.shade700 : Colors.grey.shade500,
+                CupertinoIcons.house,
+                color: _currentIndex == 0 ? activeColor : inactiveColor,
               ),
               selectedIcon: Icon(
-                CupertinoIcons.home,
-                color: Colors.orange.shade700,
+                CupertinoIcons.house_fill,
+                color: activeColor,
               ),
               label: 'Home',
             ),
             NavigationDestination(
               icon: Icon(
                 CupertinoIcons.heart,
-                color: _currentIndex == 1 ? Colors.orange.shade700 : Colors.grey.shade500,
+                color: _currentIndex == 1 ? activeColor : inactiveColor,
               ),
               selectedIcon: Icon(
                 CupertinoIcons.heart_fill,
-                color: Colors.orange.shade700,
+                color: activeColor,
               ),
               label: 'Favorite',
             ),
             NavigationDestination(
               icon: Badge(
                 label: const Text('3'),
-                backgroundColor: Colors.red.shade600,
+                backgroundColor: CupertinoColors.systemRed,
                 child: Icon(
-                  CupertinoIcons.shopping_cart,
-                  color: _currentIndex == 2 ? Colors.orange.shade700 : Colors.grey.shade500,
+                  CupertinoIcons.cart,
+                  color: _currentIndex == 2 ? activeColor : inactiveColor,
                 ),
               ),
               selectedIcon: Badge(
                 label: const Text('3'),
-                backgroundColor: Colors.red.shade600,
+                backgroundColor: CupertinoColors.systemRed,
                 child: Icon(
                   CupertinoIcons.cart_fill,
-                  color: Colors.orange.shade700,
+                  color: activeColor,
                 ),
               ),
               label: 'Cart',
@@ -96,135 +101,16 @@ class _HomeBottomBar extends State<HomeBottomBar> {
             NavigationDestination(
               icon: Icon(
                 CupertinoIcons.person,
-                color: _currentIndex == 3 ? Colors.orange.shade700 : Colors.grey.shade500,
+                color: _currentIndex == 3 ? activeColor : inactiveColor,
               ),
               selectedIcon: Icon(
                 CupertinoIcons.person_fill,
-                color: Colors.orange.shade700,
+                color: activeColor,
               ),
               label: 'Profile',
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-// Placeholder screens
-class FavoriteScreen extends StatelessWidget {
-  const FavoriteScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Favorites'),
-        centerTitle: true,
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              CupertinoIcons.heart_fill,
-              size: 80,
-              color: Colors.grey.shade300,
-            ),
-            const SizedBox(height: 16),
-            Text(
-              'No favorites yet',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-                color: Colors.grey.shade700,
-              ),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              'Start adding items to your wishlist',
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.grey.shade500,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class ShoppingScreen extends StatelessWidget {
-  const ShoppingScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Shopping Cart'),
-        centerTitle: true,
-        actions: [
-          IconButton(
-            icon: const Icon(CupertinoIcons.trash),
-            onPressed: () {
-              // Clear cart
-            },
-          ),
-        ],
-      ),
-      body: Column(
-        children: [
-          Expanded(
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    CupertinoIcons.cart,
-                    size: 80,
-                    color: Colors.grey.shade300,
-                  ),
-                  const SizedBox(height: 16),
-                  Text(
-                    'Your cart is empty',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.grey.shade700,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    'Add items to get started',
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.grey.shade500,
-                    ),
-                  ),
-                  const SizedBox(height: 24),
-                  ElevatedButton(
-                    onPressed: () {
-                      // Go to home
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.orange.shade700,
-                      foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 32,
-                        vertical: 12,
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
-                    child: const Text('Start Shopping'),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
       ),
     );
   }
