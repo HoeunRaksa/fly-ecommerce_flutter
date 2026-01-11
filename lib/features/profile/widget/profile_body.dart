@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fly/core/widgets/elevated_button.dart';
 import 'package:go_router/go_router.dart';
@@ -12,22 +13,24 @@ class ProfileBody extends StatelessWidget {
   const ProfileBody({super.key, required this.user, required this.logout});
 
   void _showLogoutDialog(BuildContext context) {
-    showDialog(
+    showCupertinoDialog(
       context: context,
-      builder: (context) => AlertDialog(
+      builder: (context) => CupertinoAlertDialog(
         title: const Text("Logout"),
-        content: const Text("Are your sure you want to logout?"),
+        content: const Text("Are you sure you want to logout?"),
         actions: [
-          EButton(name: "Cancel", onPressed: () => context.pop()),
-          const SizedBox(height: 10),
-          EButton(
-            name: "Yes",
+          CupertinoDialogAction(
+            child: const Text("Cancel"),
+            onPressed: () => context.pop(),
+          ),
+          CupertinoDialogAction(
+            child: const Text("Yes", style: TextStyle(color: CupertinoColors.destructiveRed)),
             onPressed: () {
               context.pop();
               logout();
               context.pushReplacement("/home");
             },
-          )
+          ),
         ],
       ),
     );
@@ -46,9 +49,7 @@ class ProfileBody extends StatelessWidget {
         : const AssetImage("${AppConfig.imageUrl}/character.png");
 
     return SingleChildScrollView(
-      padding: EdgeInsets.only(
-        bottom: MediaQuery.of(context).viewInsets.bottom,
-      ),
+      padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
       child: Align(
         alignment: Alignment.topCenter,
         child: ConstrainedBox(
@@ -58,12 +59,13 @@ class ProfileBody extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
             child: Column(
               children: [
+                // Profile Image
                 SizedBox(
                   height: 140,
                   width: 140,
                   child: ClipRRect(
-                    borderRadius: const BorderRadius.all(Radius.circular(70)),
-                    child: Image(image: imageProvider),
+                    borderRadius: BorderRadius.circular(70),
+                    child: Image(image: imageProvider, fit: BoxFit.cover),
                   ),
                 ),
                 const SizedBox(height: 10),
@@ -71,34 +73,28 @@ class ProfileBody extends StatelessWidget {
                   capitalizeFirst(user.name),
                   style: Theme.of(context).textTheme.headlineMedium,
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 6),
                 Text(
-                  "This this the extra information or bio",
-                  style: Theme.of(context).textTheme.bodySmall,
+                  "This is the extra information or bio",
+                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                    color: CupertinoColors.systemGrey,
+                  ),
                 ),
                 const SizedBox(height: 20),
                 Column(
                   children: [
-                    item(context, Icons.person, "Personal Information",
+                    item(context, CupertinoIcons.person, "Personal Information",
                         onPress: () {}),
-                    item(context, Icons.payment, "Payment Method",
+                    item(context, CupertinoIcons.creditcard, "Payment Method",
                         onPress: () {}),
-                    item(context, Icons.shopping_cart, "Order History",
+                    item(context, CupertinoIcons.shopping_cart, "Order History",
                         onPress: () {}),
-                    item(context, Icons.pin_drop, "Address", onPress: () {}),
-                    item(context, Icons.support_agent, "Support Center",
+                    item(context, CupertinoIcons.location, "Address",
+                        onPress: () {}),
+                    item(context, CupertinoIcons.headphones, "Support Center",
                         onPress: () {}),
                     const SizedBox(height: 20),
-                    TextButton(
-                      onPressed: () => _showLogoutDialog(context),
-                      child: Text(
-                        "Logout",
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyLarge!
-                            .copyWith(color: Colors.red),
-                      ),
-                    ),
+                    EButton(name: "Logout",  onPressed: () => _showLogoutDialog(context), ),
                   ],
                 ),
               ],
@@ -119,21 +115,19 @@ class ProfileBody extends StatelessWidget {
       height: 60,
       margin: const EdgeInsets.symmetric(vertical: 5),
       width: double.infinity,
-      child: ElevatedButton(
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.white, width: 1,),
+        borderRadius: BorderRadius.all(Radius.circular(30))
+      ),
+      child: CupertinoButton(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        color: CupertinoColors.systemGrey6,
+        borderRadius: BorderRadius.circular(10),
         onPressed: onPress,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.white,
-          foregroundColor: Colors.black,
-          elevation: 0,
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-        ),
         child: Row(
-          spacing: 20,
           children: [
-            Icon(icon, color: AppColors.gray500, size: 30),
+            Icon(icon, color: CupertinoColors.systemGrey, size: 28),
+            const SizedBox(width: 18),
             Text(
               information,
               style: Theme.of(context)
@@ -142,7 +136,7 @@ class ProfileBody extends StatelessWidget {
                   .copyWith(fontWeight: FontWeight.w400),
             ),
             const Spacer(),
-            const Icon(Icons.chevron_right, color: Colors.grey),
+            const Icon(CupertinoIcons.chevron_forward, color: CupertinoColors.systemGrey),
           ],
         ),
       ),

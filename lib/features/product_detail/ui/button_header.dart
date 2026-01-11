@@ -19,8 +19,8 @@ class _ButtonHeaderState extends State<ButtonHeader> {
       children: [
         Container(
           padding: const EdgeInsets.only(
-            left: 30,
-            right: 30,
+            left: 10,
+            right: 10,
             top: 50,
             bottom: 5,
           ),
