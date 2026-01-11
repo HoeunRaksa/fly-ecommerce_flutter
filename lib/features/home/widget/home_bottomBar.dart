@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fly/features/favorite/screen/favorite_screen.dart';
 import 'package:fly/features/profile/screen/profile_screen.dart';
 import '../screen/home_screen.dart';
 
@@ -16,7 +17,7 @@ class _HomeBottomBar extends State<HomeBottomBar> {
 
   final List<Widget> _screens = [
     const HomeScreen(),
-    const HomeScreen(),
+    const FavoriteScreen(),
     const HomeScreen(),
     const ProfileScreen(),
   ];

@@ -14,7 +14,6 @@ void main() {
       providers: [
         // AuthProvider keeps the token & user after login
         ChangeNotifierProvider(create: (_) => AuthProvider()),
-
         // UserProvider depends on AuthProvider
         ChangeNotifierProxyProvider<AuthProvider, UserProvider>(
           create: (context) {
@@ -29,7 +28,6 @@ void main() {
             return userProvider!;
           },
         ),
-
         // ProductProvider
         ChangeNotifierProvider(create: (_) => ProductProvider()),
       ],

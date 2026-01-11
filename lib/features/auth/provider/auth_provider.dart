@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import '../service/auth_service.dart';
 import '../../../model/user_auth.dart';
@@ -38,9 +39,19 @@ class AuthProvider extends ChangeNotifier {
   }
 
   // ---------------- REGISTER ----------------
-  Future<void> register(String name, String email, String password) async {
+  Future<void> register(
+      String name,
+      String email,
+      String password, {
+        File? profileImage,
+      }) async {
     try {
-      final result = await _authService.register(name, email, password);
+      final result = await _authService.register(
+        name,
+        email,
+        password,
+        profileImage: profileImage,
+      );
 
       // OTP not verified yet - don't save token
       _token = null;
@@ -52,6 +63,8 @@ class AuthProvider extends ChangeNotifier {
         name: result?.name ?? name,
         email: result?.email ?? email,
         role: result?.role ?? 'user',
+        profileImage: result?.profileImage,
+        profileImageUrl: result?.profileImageUrl,
         isVerified: false,
         token: null,
       );
@@ -103,6 +116,89 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
+  // ---------------- GET CURRENT USER ----------------
+  Future<void> fetchUser() async {
+    if (_token == null) {
+      debugPrint('⚠️ Cannot fetch user: No token available');
+      return;
+    }
+
+    try {
+      final result = await _authService.getUser(_token!);
+      _user = result;
+      notifyListeners();
+      debugPrint('✅ User fetched: ${result.email}');
+    } catch (e) {
+      debugPrint('❌ Failed to fetch user: $e');
+      // If token is invalid, logout
+      if (e.toString().contains('401') || e.toString().contains('Unauthenticated')) {
+        await logout();
+      }
+      rethrow;
+    }
+  }
+
+  // ---------------- UPDATE PROFILE ----------------
+  Future<void> updateProfile({
+    String? name,
+    String? email,
+    String? password,
+    File? profileImage,
+  }) async {
+    if (_token == null) {
+      throw Exception('Not authenticated');
+    }
+
+    try {
+      final result = await _authService.updateProfile(
+        token: _token!,
+        name: name,
+        email: email,
+        password: password,
+        profileImage: profileImage,
+      );
+
+      _user = result;
+      notifyListeners();
+      debugPrint('✅ Profile updated: ${result.email}');
+    } catch (e) {
+      debugPrint('❌ Failed to update profile: $e');
+      rethrow;
+    }
+  }
+
+  // ---------------- DELETE PROFILE IMAGE ----------------
+  Future<void> deleteProfileImage() async {
+    if (_token == null) {
+      throw Exception('Not authenticated');
+    }
+
+    try {
+      await _authService.deleteProfileImage(_token!);
+
+      // Update user object
+      if (_user != null) {
+        _user = User(
+          id: _user!.id,
+          name: _user!.name,
+          email: _user!.email,
+          role: _user!.role,
+          profileImage: null,
+          profileImageUrl: null,
+          isVerified: _user!.isVerified,
+          token: _user!.token,
+          emailVerifiedAt: _user!.emailVerifiedAt,
+        );
+      }
+
+      notifyListeners();
+      debugPrint('✅ Profile image deleted');
+    } catch (e) {
+      debugPrint('❌ Failed to delete profile image: $e');
+      rethrow;
+    }
+  }
+
   // ---------------- LOGOUT ----------------
   Future<void> logout() async {
     debugPrint('🚪 Logging out: ${_user?.email}');
@@ -142,7 +238,8 @@ class AuthProvider extends ChangeNotifier {
   void printCurrentState() {
     debugPrint('========== AUTH STATE ==========');
     debugPrint('User: ${_user?.email}');
-    debugPrint('Token: ${_token?.substring(0, 20)}...');
+    debugPrint('Token: ${_token != null ? '${_token!.substring(0, 20)}...' : 'null'}');
+    debugPrint('Profile Image: ${_user?.profileImageUrl ?? 'none'}');
     debugPrint('Logged in: $isLoggedIn');
     debugPrint('================================');
   }

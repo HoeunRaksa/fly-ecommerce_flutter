@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fly/config/app_config.dart';
-import 'package:fly/features/auth/provider/user_provider.dart';
+import 'package:fly/features/auth/provider/auth_provider.dart'; // Changed from user_provider
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import '../../../core/widgets/input_field.dart';
@@ -13,8 +13,8 @@ class HomeHeader extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    final userProvider = context.watch<UserProvider>();
-    final user = userProvider.user;
+    final authProvider = context.watch<AuthProvider>(); // Changed from UserProvider
+    final user = authProvider.user; // Changed
     final userName = user?.name ?? "Guest";
 
     String capitalizeFirst(String? text) {
@@ -75,9 +75,9 @@ class HomeHeader extends StatelessWidget implements PreferredSizeWidget {
                             child: CircleAvatar(
                               radius: 26,
                               backgroundColor: CupertinoColors.systemGrey6.resolveFrom(context),
-                              backgroundImage: user?.profileImage != null
+                              backgroundImage: user?.hasProfileImage == true // Changed
                                   ? CachedNetworkImageProvider(
-                                AppConfig.getImageUrl(user!.profileImage!),
+                                user!.profileImageUrl!, // Changed
                               )
                                   : const AssetImage("${AppConfig.imageUrl}/character.png") as ImageProvider,
                             ),
@@ -157,12 +157,12 @@ class HomeHeader extends StatelessWidget implements PreferredSizeWidget {
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
                             colors: [
-                              CupertinoColors.systemFill.resolveFrom(context).withOpacity(0.6),
-                              CupertinoColors.secondarySystemFill.resolveFrom(context).withOpacity(0.4),
+                              CupertinoColors.systemFill.resolveFrom(context).withOpacity(0.3),
+                              CupertinoColors.secondarySystemFill.resolveFrom(context).withOpacity(0.3),
                             ],
                           ),
                           border: Border.all(
-                            color: CupertinoColors.separator.resolveFrom(context).withOpacity(0.3),
+                            color: CupertinoColors.white,
                             width: 0.5,
                           ),
                         ),
@@ -199,7 +199,7 @@ class HomeHeader extends StatelessWidget implements PreferredSizeWidget {
                             ),
                             boxShadow: [
                               BoxShadow(
-                                color: CupertinoColors.systemRed.withOpacity(0.4),
+                                color: CupertinoColors.systemRed.withOpacity(0.1),
                                 blurRadius: 6,
                                 offset: const Offset(0, 2),
                               ),

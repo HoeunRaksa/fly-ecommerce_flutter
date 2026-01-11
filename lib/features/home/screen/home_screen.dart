@@ -4,7 +4,7 @@ import 'package:fly/features/home/widget/home_body.dart';
 import 'package:fly/features/home/widget/home_header.dart';
 import 'package:provider/provider.dart';
 import '../../../providers/product_provider.dart';
-import '../../auth/provider/user_provider.dart';
+import '../../auth/provider/auth_provider.dart'; // Changed from user_provider
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -28,12 +28,12 @@ class _HomeScreenState extends State<HomeScreen>
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       final productProvider = context.read<ProductProvider>();
-      final userProvider = context.read<UserProvider>();
+      final authProvider = context.read<AuthProvider>(); // Changed
 
       try {
         await Future.wait([
           productProvider.fetchProducts(),
-          userProvider.fetchUser(),
+          authProvider.fetchUser(), // Changed
         ]);
       } catch (e) {
         debugPrint('Error fetching data: $e');
@@ -127,7 +127,7 @@ class _HomeScreenState extends State<HomeScreen>
             alignment: Alignment.topCenter,
             child: ConstrainedBox(
               constraints: const BoxConstraints(
-                maxWidth: 1200, // perfect home max width
+                maxWidth: 1200,
               ),
               child: HomeBody(
                 selectedIndex: selectedIndex,

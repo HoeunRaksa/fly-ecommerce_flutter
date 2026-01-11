@@ -53,8 +53,8 @@ class Category extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         gradient: isSelected
             ? LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
+          begin: Alignment.center,
+          end: Alignment.centerRight,
           colors: [
             AppColors.secondaryGreen,
             AppColors.secondaryGreen.withOpacity(0.85),
@@ -105,16 +105,15 @@ class Category extends StatelessWidget {
               ? Colors.white.withOpacity(0.05)
               : AppColors.secondaryGreen.withOpacity(0.03),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             child: Row(
-              mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 AnimatedScale(
                   scale: isSelected ? 1.1 : 1.0,
                   duration: const Duration(milliseconds: 200),
                   child: Container(
-                    padding: const EdgeInsets.all(2),
                     decoration: isSelected
                         ? BoxDecoration(
                       shape: BoxShape.circle,
