@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fly/core/routing/app_routes.dart';
+import 'package:fly/features/auth/welcome/welcome_screen.dart';
 import 'package:fly/features/home/widget/home_bottomBar.dart';
 import 'package:fly/features/profile/screen/profile_screen.dart';
 import 'package:go_router/go_router.dart';
@@ -15,9 +16,14 @@ class AppRouter {
   static GoRouter router(
       AuthProvider authProvider, ProductProvider productProvider) {
     return GoRouter(
-      initialLocation: AppRoutes.login,
+      initialLocation: AppRoutes.welcome,
       refreshListenable: authProvider,
       routes: [
+        GoRoute(
+          path: AppRoutes.welcome,
+          builder: (context, state) => const WelcomeScreen(
+          ),
+        ),
         GoRoute(
           path: AppRoutes.login,
           builder: (context, state) => const LoginScreen(),
