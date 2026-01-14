@@ -25,15 +25,14 @@ class HomeHeader extends StatelessWidget implements PreferredSizeWidget {
     }
     return PreferredSize(
       preferredSize: preferredSize,
-      child: ClipRRect(
+      child: ClipRRect(borderRadius: BorderRadius.all(Radius.circular(30)),
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
           child: Container(
             decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
-              border: Border.all(color: AppColors.offWhite, width: 1),
+                  borderRadius: BorderRadius.all(Radius.circular(30)),
             ),
-            padding: const EdgeInsets.fromLTRB(24, 1, 24, 10),
+            padding: const EdgeInsets.fromLTRB(24, 1, 24, 20),
             child: SafeArea(
               bottom: false,
               child: Column(
@@ -149,6 +148,7 @@ class HomeHeader extends StatelessWidget implements PreferredSizeWidget {
                               filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
                               child: Container(
                                 decoration: BoxDecoration(
+                                  color: Colors.white,
                                   borderRadius: BorderRadius.circular(16),
                                   border: Border.all(
                                     color: CupertinoColors.white.withOpacity(0.2),
@@ -165,7 +165,7 @@ class HomeHeader extends StatelessWidget implements PreferredSizeWidget {
                                   child: Icon(
                                     Icons.mail,
                                     size: 27,
-                                    color: AppColors.woodLight,
+                                    color: AppColors.greyLight,
                                   ),
                                 ),
                               ),
@@ -185,12 +185,6 @@ class HomeHeader extends StatelessWidget implements PreferredSizeWidget {
                       filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
                       child: Container(
                         decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              CupertinoColors.systemFill.resolveFrom(context).withOpacity(0.4),
-                              CupertinoColors.secondarySystemFill.resolveFrom(context).withOpacity(0.2),
-                            ],
-                          ),
                           borderRadius: BorderRadius.circular(14),
                           border: Border.all(
                             color: CupertinoColors.separator.resolveFrom(context).withOpacity(0.3),

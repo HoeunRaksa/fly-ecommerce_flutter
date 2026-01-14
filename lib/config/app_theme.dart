@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'app_color.dart';
 
@@ -6,7 +5,7 @@ class AppTheme {
   static final ThemeData light = ThemeData(
     useMaterial3: true,
     brightness: Brightness.light,
-    scaffoldBackgroundColor: AppColors.offWhite,
+    scaffoldBackgroundColor: Colors.blueGrey.shade50,
     colorScheme: const ColorScheme.light(
       primary: AppColors.woodWalnut,
       secondary: AppColors.woodOak,
