@@ -36,7 +36,7 @@ class AppRouter {
           builder: (context, state) {
             final email = (state.extra as Map?)?['email'] as String?;
 
-            final authProvider = context.read<AuthProvider>();
+            // Use the authProvider parameter instead of context.read
             final finalEmail = email ?? authProvider.user?.email;
 
             if (finalEmail == null || finalEmail.isEmpty) {
@@ -68,7 +68,8 @@ class AppRouter {
         ),
       ],
       redirect: (context, state) {
-        final authProvider = context.read<AuthProvider>();
+        // ✅ FIX: Use the authProvider parameter instead of context.read
+        // This prevents "Looking up a deactivated widget's ancestor" error
         final loggedIn = authProvider.isLoggedIn;
         final otpPending = authProvider.otpPending;
         final currentPath = state.uri.path;

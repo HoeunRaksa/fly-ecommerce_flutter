@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../config/app_color.dart';
 import '../../model/product.dart';
+import '../helperFunction/string_util.dart';
 
 class ProductCard extends StatelessWidget {
   final double? width;
@@ -93,12 +94,12 @@ class ProductCard extends StatelessWidget {
                 // Description
                 if (product.description.isNotEmpty)
                   Text(
-                    product.description,
+                    StringUtils.truncate(product.description, maxLength: 55),
                     style: TextStyle(
                       fontSize: screenWidth * 0.039,
                       color: Colors.grey.shade600,
                     ),
-                    maxLines: 3,
+                    maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.start,
                   ),
