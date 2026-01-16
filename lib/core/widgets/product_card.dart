@@ -3,8 +3,8 @@ import '../../config/app_color.dart';
 import '../../model/product.dart';
 
 class ProductCard extends StatelessWidget {
-  final double width;
-  final double height;
+  final double? width;
+  final double? height;
   final double? imageX;
   final Product product;
   final ImageProvider image;
@@ -13,9 +13,9 @@ class ProductCard extends StatelessWidget {
 
   const ProductCard({
     super.key,
-    this.height = 390,
-    this.width = 250,
-    this.imageX = 250,
+    this.height,
+    this.width,
+    this.imageX,
     required this.product,
     required this.image,
     required this.onAdded,
@@ -24,68 +24,90 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
+    // Responsive dimensions with max width of 600
+    final cardWidth = width ?? (screenWidth * 0.65).clamp(0, 600);
+    final cardHeight = height ?? screenHeight * 0.5;
+    final imageWidth = imageX ?? cardWidth;
+
     return Container(
-      width: width,
-      height: height,
+      width: cardWidth,
+      height: cardHeight,
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(15),
+        borderRadius: BorderRadius.circular(screenWidth * 0.04),
+        color: Colors.white
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ClipRRect(
-            borderRadius: BorderRadius.circular(15),
+            borderRadius: BorderRadius.circular(screenWidth * 0.04),
             child: Stack(
-                 children: [
-                   Image(image: image, width: imageX, fit: BoxFit.contain),
-                   Positioned(
-                     top:20,right: 20,
-                       child: Container(
-                         padding: EdgeInsets.all(5),
-                         decoration: BoxDecoration(color: AppColors.woodLight, borderRadius: BorderRadius.all(Radius.circular(10))),
-                         child: Text(
-                           "- \$${product.discount}", style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.white, fontWeight: FontWeight.w800),
-                       ),) ),
-                 ],
+              children: [
+                Image(image: image, width: imageWidth, fit: BoxFit.contain),
+                Positioned(
+                  top: screenHeight * 0.025,
+                  right: screenWidth * 0.05,
+                  child: Container(
+                    padding: EdgeInsets.all(screenWidth * 0.013),
+                    decoration: BoxDecoration(
+                        color: AppColors.woodLight,
+                        borderRadius: BorderRadius.all(Radius.circular(screenWidth * 0.026))
+                    ),
+                    child: Text(
+                      "- \$${product.discount}",
+                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w800,
+                        fontSize: screenWidth * 0.04,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: screenHeight * 0.012),
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 10),
+            padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.026),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 if (product.name.isNotEmpty)
                   Text(
                     product.name,
-                    style: const TextStyle(
-                      fontSize: 20,
+                    style: TextStyle(
+                      fontSize: screenWidth * 0.045,
                       fontWeight: FontWeight.w800,
                       color: AppColors.woodDark,
                     ),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
-                    textAlign: TextAlign.center,
+                    textAlign: TextAlign.start,
                   ),
 
-                const SizedBox(height: 10),
+                SizedBox(height: screenHeight * 0.012),
 
                 // Description
                 if (product.description.isNotEmpty)
                   Text(
                     product.description,
-                    style: TextStyle(fontSize: 15, color: Colors.grey.shade600),
+                    style: TextStyle(
+                      fontSize: screenWidth * 0.039,
+                      color: Colors.grey.shade600,
+                    ),
                     maxLines: 3,
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.start,
                   ),
-                const SizedBox(height: 10),
+                SizedBox(height: screenHeight * 0.015),
                 if (product.price > 0)
                   Text(
                     '\$${product.price.toStringAsFixed(2)}',
                     style: TextStyle(
-                      fontSize: 18,
+                      fontSize: screenWidth * 0.042,
                       fontWeight: FontWeight.bold,
                       color: AppColors.woodWalnut,
                     ),

@@ -3,28 +3,38 @@ import '../../config/app_color.dart';
 import '../../model/product.dart';
 
 class SmallCard extends StatelessWidget {
-  final double width;
-  final double height;
+  final double? width;
+  final double? height;
   final Product product;
   final ImageProvider image;
 
   const SmallCard({
     super.key,
-    this.width = 280, // Reduced from 340
-    this.height = 110, // Reduced from 120
+    this.width,
+    this.height,
     required this.product,
     required this.image,
   });
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
+    // Responsive dimensions with max width of 600
+    final cardWidth = width ?? (screenWidth * 0.9).clamp(0, 600);
+    final cardHeight = height ?? screenHeight * 0.14;
+    final imageSize = cardHeight * 0.82;
+    final horizontalPadding = screenWidth * 0.02;
+    final spacing = screenWidth * 0.025;
+
     return Container(
-      width: width,
-      height: height,
-      padding: const EdgeInsets.all(8),
+      width: cardWidth,
+      height: cardHeight,
+      padding: EdgeInsets.all(horizontalPadding),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(screenWidth * 0.04),
         border: Border.all(color: Colors.grey.shade200),
         boxShadow: [
           BoxShadow(
@@ -37,18 +47,18 @@ class SmallCard extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          // Image - Fixed size
+          // Image - Responsive size
           ClipRRect(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(screenWidth * 0.03),
             child: Image(
               image: image,
-              width: 90,
-              height: 90,
+              width: imageSize,
+              height: imageSize,
               fit: BoxFit.cover,
             ),
           ),
 
-          const SizedBox(width: 10),
+          SizedBox(width: spacing),
 
           // Product info - Flexible to prevent overflow
           Expanded(
@@ -61,8 +71,8 @@ class SmallCard extends StatelessWidget {
                 if (product.name.isNotEmpty)
                   Text(
                     product.name,
-                    style: const TextStyle(
-                      fontSize: 13,
+                    style: TextStyle(
+                      fontSize: screenWidth * 0.035,
                       fontWeight: FontWeight.w600,
                     ),
                     maxLines: 2,
@@ -71,11 +81,11 @@ class SmallCard extends StatelessWidget {
 
                 // Description
                 if (product.description.isNotEmpty) ...[
-                  const SizedBox(height: 3),
+                  SizedBox(height: screenHeight * 0.004),
                   Text(
                     product.description,
                     style: TextStyle(
-                      fontSize: 11,
+                      fontSize: screenWidth * 0.029,
                       color: Colors.grey.shade600,
                     ),
                     maxLines: 1,
@@ -85,14 +95,14 @@ class SmallCard extends StatelessWidget {
 
                 // Price and discount
                 if (product.price > 0) ...[
-                  const SizedBox(height: 6),
+                  SizedBox(height: screenHeight * 0.008),
                   Row(
                     children: [
                       Flexible(
                         child: Text(
                           '\$${product.price.toStringAsFixed(2)}',
                           style: TextStyle(
-                            fontSize: 13,
+                            fontSize: screenWidth * 0.035,
                             fontWeight: FontWeight.bold,
                             color: AppColors.woodWalnut,
                           ),
@@ -101,21 +111,21 @@ class SmallCard extends StatelessWidget {
                         ),
                       ),
                       if (product.discount > 0) ...[
-                        const SizedBox(width: 6),
+                        SizedBox(width: screenWidth * 0.015),
                         Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 4,
-                            vertical: 2,
+                          padding: EdgeInsets.symmetric(
+                            horizontal: screenWidth * 0.01,
+                            vertical: screenHeight * 0.002,
                           ),
                           decoration: BoxDecoration(
                             color: Colors.red,
-                            borderRadius: BorderRadius.circular(4),
+                            borderRadius: BorderRadius.circular(screenWidth * 0.01),
                           ),
                           child: Text(
                             '-${product.discount.toStringAsFixed(0)}%',
-                            style: const TextStyle(
+                            style: TextStyle(
                               color: Colors.white,
-                              fontSize: 9,
+                              fontSize: screenWidth * 0.024,
                               fontWeight: FontWeight.bold,
                             ),
                           ),

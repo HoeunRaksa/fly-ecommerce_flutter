@@ -100,7 +100,7 @@ class HomeBody extends StatelessWidget {
     }
 
     return SizedBox(
-      height: 400,
+      height: 430,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.symmetric(horizontal: 4),
@@ -118,6 +118,8 @@ class HomeBody extends StatelessWidget {
             padding: EdgeInsets.zero,
             onPressed: () => context.push('/detail/${product.id}'),
             child: ProductCard(
+              width:250,
+              height: 400,
               image: imageProvider,
               product: product,
               setIcon: true,
