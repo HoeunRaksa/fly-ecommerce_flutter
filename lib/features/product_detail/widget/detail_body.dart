@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fly/features/product_detail/widget/viewer.dart';
+import '../../../config/app_color.dart';
 import '../../../config/app_config.dart';
 import '../../../model/product.dart';
 
@@ -108,7 +109,7 @@ class DetailBody extends StatelessWidget {
 
         // Name & Price
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 1),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -130,24 +131,7 @@ class DetailBody extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      CupertinoColors.systemOrange.withOpacity(0.15),
-                      CupertinoColors.systemOrange.withOpacity(0.08),
-                    ],
-                  ),
                   borderRadius: BorderRadius.circular(16),
-                  border: Border.all(
-                    color: CupertinoColors.systemOrange.withOpacity(0.3),
-                    width: 1,
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: CupertinoColors.systemOrange.withOpacity(0.1),
-                      blurRadius: 12,
-                      offset: const Offset(0, 4),
-                    ),
-                  ],
                 ),
                 child: Text(
                   "\$${product.price.toStringAsFixed(2)}",
@@ -155,7 +139,7 @@ class DetailBody extends StatelessWidget {
                     fontSize: 24,
                     fontWeight: FontWeight.w700,
                     letterSpacing: -0.3,
-                    color: Theme.of(context).primaryColor,
+                    color: AppColors.priceLine,
                     height: 1,
                   ),
                 ),
@@ -199,22 +183,7 @@ class DetailBody extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 16),
-              Container(
-                padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      CupertinoColors.systemFill.resolveFrom(context).withOpacity(0.3),
-                      CupertinoColors.secondarySystemFill.resolveFrom(context).withOpacity(0.2),
-                    ],
-                  ),
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(
-                    color: CupertinoColors.separator.resolveFrom(context).withOpacity(0.2),
-                    width: 0.5,
-                  ),
-                ),
-                child: Text(
+              Text(
                   product.description,
                   style: TextStyle(
                     fontSize: 16,
@@ -224,7 +193,7 @@ class DetailBody extends StatelessWidget {
                     color: CupertinoColors.secondaryLabel.resolveFrom(context),
                   ),
                 ),
-              ),
+
             ],
           ),
         ),
